@@ -46,6 +46,20 @@ func (h *TranscribeHandler) transcribe(c *fiber.Ctx) error {
 }
 
 func (h *TranscribeHandler) apiCreateTranscribe(c *fiber.Ctx) error {
+
+	sess, err := h.store.Get(c)
+	if err != nil {
+		panic(err)
+	}
+
+	login := sess.Get("login")
+	if login == nil {
+		c.Response().Header.Add("Hx-Redirect", "/login")
+		return c.Redirect("/login", http.StatusOK)
+	}
+	authedLogin := sess.Get("login").(string)
+	h.customLogger.Info().Msg(authedLogin)
+
 	image, err := c.FormFile("image")
 
 	if err != nil || image == nil {
@@ -66,7 +80,17 @@ func (h *TranscribeHandler) apiCreateTranscribe(c *fiber.Ctx) error {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(message)
+
+	if message != "" {
+		err = h.repository.AllUsersCounterPlus()
+		if err != nil {
+			h.customLogger.Info().Msg("failed to update all users action counter, handler level")
+		}
+		err = h.repository.userTranscribeCounterPlus(authedLogin)
+		if err != nil {
+			h.customLogger.Info().Msg("failed to update transcribed counter, handler level")
+		}
+	}
 
 	component := components.TranscribeResult(message)
 	return tadapter.Render(c, component, http.StatusOK)
