@@ -3,6 +3,7 @@ package encrypt
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"stegano-webapp/steagano-webapp/pkg/encrypt"
 	filenamegenerator "stegano-webapp/steagano-webapp/pkg/filenameGenerator"
 	"stegano-webapp/steagano-webapp/pkg/tadapter"
@@ -79,6 +80,12 @@ func (h *EncryptHandler) apiCreateEncrypt(c *fiber.Ctx) error {
 		return tadapter.Render(c, component, http.StatusInternalServerError)
 	}
 
+	isJPEG, _ := isJPEG(filepath)
+	if isJPEG {
+		component := components.Notification("Файл должен быть .png", components.NotificationFail)
+		return tadapter.Render(c, component, http.StatusInternalServerError)
+	}
+
 	encryptedImageFilepath, encryptedImageFilename, _ := encrypt.EncryptImage(filepath, textToEncrypt)
 	if encryptedImageFilepath != "" {
 		err = h.repository.AllUsersCounterPlus()
@@ -129,4 +136,15 @@ func (h *EncryptHandler) authMiddleware(c *fiber.Ctx) error {
 	}
 
 	return c.Next()
+}
+
+func isJPEG(filepath string) (bool, error) {
+	file, _ := os.Open(filepath)
+	buf := make([]byte, 2)
+	_, err := file.Read(buf)
+	if err != nil {
+		return false, err
+	}
+	defer file.Close()
+	return buf[0] == 0xFF && buf[1] == 0xD8, nil
 }

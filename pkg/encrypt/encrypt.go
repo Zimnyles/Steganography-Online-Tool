@@ -23,30 +23,30 @@ func EncryptImage(filepath string, secretMessage string) (string, string, error)
 
 	fmt.Println(filepath, secretMessage)
 
-	reader := bufio.NewReader(inFile) 
+	reader := bufio.NewReader(inFile)
 	img, err := png.Decode(reader)
 	if err != nil {
 		fmt.Println("0")
 	}
 
-	w := new(bytes.Buffer)                                    
-	err = steganography.Encode(w, img, []byte(secretMessage)) 
+	w := new(bytes.Buffer)
+	err = steganography.Encode(w, img, []byte(secretMessage))
 	if err != nil {
 		log.Printf("Error Encoding file %v", err)
-		return "", "" ,err
+		return "", "", err
 	}
 
 	uniqueFilenameCode := filenamegenerator.GenerateFilename()
 	uniqueFilename := "encrypted_image_" + uniqueFilenameCode + strconv.FormatInt((time.Now().Unix()), 10) + ".png"
 	encryptedfilepath := "static/images/encryimages/" + uniqueFilename
 
-	fmt.Println(uniqueFilename, encryptedfilepath + "1")
+	fmt.Println(uniqueFilename, encryptedfilepath+"1")
 
-	outFile, _ := os.Create(encryptedfilepath) 
-	w.WriteTo(outFile)                             
+	outFile, _ := os.Create(encryptedfilepath)
+	w.WriteTo(outFile)
 	outFile.Close()
 
-	fmt.Println(uniqueFilename, encryptedfilepath + "2")
+	fmt.Println(uniqueFilename, encryptedfilepath+"2")
 
 	return encryptedfilepath, uniqueFilename, nil
 }

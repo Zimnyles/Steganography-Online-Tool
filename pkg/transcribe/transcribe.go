@@ -17,6 +17,7 @@ func TranscribeImage(filepath string) (string, error) {
 	}
 	defer inFile.Close()
 
+
 	reader := bufio.NewReader(inFile)
 	img, err := png.Decode(reader)
 	if err != nil {
@@ -33,13 +34,13 @@ func TranscribeImage(filepath string) (string, error) {
 }
 
 func btos(c []byte) string {
-	n := 0
+	// Создаём новый слайс для ненулевых байтов
+	var result []byte
 	for _, b := range c {
-		if b == 0 {
-			continue
+		if b != 0 {
+			result = append(result, b)
 		}
-		c[n] = b
-		n++
 	}
-	return string(c[:n])
+	return string(result)
 }
+
