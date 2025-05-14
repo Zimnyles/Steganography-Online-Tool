@@ -1,0 +1,271 @@
+package views
+
+import "stegano-webapp/steagano-webapp/views/layout"
+import "stegano-webapp/steagano-webapp/internal/models"
+
+templ Home(userData models.UserData, counters models.Counters) {
+    @layout.Layout(layout.LayoutProps{
+    Title: "Главная",
+    MetaDescriptiom: "Главная",
+    }){
+        @HomeStyle()
+        {{ login := ctx.Value("login").(string) }}
+        {{ myProfileLink := "/profile/" + login }}
+        <div class="title-wrapper--header">
+            <div class="title--header-wrapper">
+                <h1 class="title--header">
+                    Привет, { userData.Login } 👋
+                </h1>
+                <div class="footer-buttons-wrapper">
+                <button class="profile">
+                    <a  class="logout-a-link"  href={ templ.SafeURL(myProfileLink)} ><span>Профиль</span></a>
+                </button>
+                <button class="logout-link">
+                    <a  class="logout-a-link" hx-trigger="click" hx-get="/api/logout" href="/api/logout"><span>Выйти</span></a>
+                </button>
+                </div>
+            </div>
+            <div class="userdata-wrapper">
+                <span class="default-text">✉️ Ваша почта: { userData.Email } </span>
+                <span class="default-text">🛡️ Зашифровано файлов: { counters.UserEncrypted }</span>
+                <span class="default-text">🔑 Расшифровано файлов: { counters.UserTranscribed }</span>
+            </div>
+            <div class="service-data-wrapper">
+                <span class="service-default-text">📍 Зашифровано и расшифровано всеми пользователями: { counters.AllUsersActions } </span>
+            </div>
+        </div>
+        <div class="title-wrapper">
+            <h1 class="title">
+                Что хотите сделать сегодня?
+            </h1>
+            <div class="content-data-wrapper">
+                <span class="content-default-text">Стеганография в изображениях — это искусство скрывать сообщения внутри картинок ✨</span>
+                <span class="content-default-text">Идеальный способ передать секретное послание, не привлекая лишнего внимания. В отличие от обычного зашифрованного текста
+                (который сразу вызывает подозрения), стеганография делает ваше сообщение невидимым для посторонних.</span>
+            </div>
+        </div>
+        <div class="buttons-wrapper">
+            <button class="contnent-button-left" onclick="location.href='/encrypt'" type="button">
+                <span class="content-button-span">Зашифровать 🔒</span>
+            </button>
+
+            <button class="contnent-button-right" onclick="location.href='/transcribe'" type="button">
+                <span class="content-button-span" >Расшифровать 🔓</span>
+            </button>
+        </div>
+        }
+    
+}
+
+templ HomeStyle() {
+   <style>
+    .profile{
+        padding: 15px 20px;
+        background-color: #131313;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--color-white);
+        font-size: 16px;
+        cursor: pointer;
+        border: 1px solid #ffffff;
+        margin-bottom: 10px;
+        height: 55px;
+        width: 150px;
+    }
+    .footer-buttons-wrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: right;
+        margin-right: 50px;
+        
+        
+    }
+
+    .content-button-span{
+        color: var(--color-white);
+        font-size: 28px;
+    }
+
+    .contnent-button-right{
+        background-color: #303030;
+        border: none;
+        font-size: 16px;
+        text-decoration: none;
+        height: 300px;
+        width: 500px;
+        border-radius: 8px;
+        transition: all 0.5s ease-in-out
+
+
+    }
+
+    .contnent-button-left:hover{
+        background-color: #d36969;
+        filter: drop-shadow(0 0 20px #d36969);
+
+    }
+
+    .contnent-button-left{
+        background-color: #303030;
+        border: none;
+        font-size: 16px;
+        text-decoration: none;
+        height: 300px;
+        width: 500px;
+        border-radius: 8px;
+        transition: all 0.5s ease-in-out;
+
+    }
+
+    .contnent-button-right:hover{
+        background-color: #80d49c;
+        filter: drop-shadow(0 0 20px #80d49c);
+    }
+
+    .buttons-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-bottom: 100px;
+    }
+
+    .title--header-wrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1320px;
+        max-height: 106px;
+        width: 100%;
+    }
+
+    .link-button{
+        padding: 15px 20px;
+        background-color: #303030;
+        color: var(--color-white);
+        text-decoration: none;
+        border-radius: 8px;
+        }
+
+    .logout-link {
+        background-color: #131313;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--color-white);
+        font-size: 16px;
+        cursor: pointer;
+        border: 1px solid #ffffff;
+        margin-right: 50px;
+        margin-bottom: 10px;
+        height: 55px;
+        width: 150px;
+        margin-left: 10px;
+
+    
+        }   
+
+    .logout-a-link{
+        color: var(--color-white);
+        text-decoration: none;
+        border-radius: 8px;
+    }
+
+    .service-data-wrapper{
+        padding-bottom: 20px;
+        color: var(--color-white);
+        font-size: 20px;
+        font-weight: 200;
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
+    .content-data-wrapper{
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 20px;
+        color: var(--color-white);
+        font-size: 20px;
+        font-weight: 200;
+
+    }
+
+    .content-data-wrapper{
+        padding-bottom: 20px;
+        color: var(--color-white);
+        font-size: 20px;
+        font-weight: 200;
+
+    }
+
+    .default-text{
+        color: var(--color-white);
+        font-size: 20px;
+        font-weight: 200;
+        padding-bottom: 20px;
+        
+        
+    }
+
+    .content-default-text{
+        color: var(--color-white);
+        font-size: 20px;
+        font-weight: 200;
+        padding-bottom: 20px;
+    }
+
+    .userdata-wrapper{
+        display: flex;
+        justify-content: space-between;
+        max-width: 1120px;
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
+    .title{
+        font-weight: bold;
+        margin-bottom:12px;
+        margin-top: 0;
+        color: var(--color-white);
+        font-size: 70px;
+    }
+
+    .title--header{
+        margin-left: 100px;
+        font-weight: bold;
+        margin-bottom:12px;
+        margin-top: 0;
+        color: var(--color-white);
+        font-size: 70px;
+    }
+
+    .title-wrapper--header{
+        background-color: #161616;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        padding-top: 20px;
+        border-bottom: 1px solid rgb(222, 222, 222);
+        
+        
+    }
+
+    .title-wrapper{
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-top: 20px;
+
+        
+        
+    }
+
+
+
+   </style>
+
+}

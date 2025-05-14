@@ -1,0 +1,39 @@
+package components
+
+templ TranscribeResult(message string) {
+    @TranscribeResultStyle()
+    <div class="result-container">
+        <div class="download-actions">
+            <p>Изображение содержит в себе следующий текст: </p>
+            <p class="message-text"> { message } </p>
+        </div>
+    </div>
+
+}
+
+templ TranscribeResultStyle() {
+    <style>
+        a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+        .result-container{
+            text-align: center;
+            align-items: center;
+            background-color: #4CAF50;
+            margin-left: 100px;
+            margin-right: 100px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: none;   
+            padding: 30px;  
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .htmx-swapping .result-container{
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+    </style>
+}

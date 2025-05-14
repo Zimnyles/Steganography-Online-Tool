@@ -1,0 +1,160 @@
+package views
+
+
+import "stegano-webapp/steagano-webapp/views/layout"
+import "stegano-webapp/steagano-webapp/views/components"
+
+
+templ Registration() {
+@layout.Layout(layout.LayoutProps{
+Title: "Регистрация",
+MetaDescriptiom: "Регистрация",
+}){
+
+@RegistrationStyle()
+<div class="title-wrapper">
+    <h1 class="title">
+        Регистрация
+    </h1>
+</div>
+<div id="reg-result"> </div>
+<div class="reg-form--wrapper">
+    <form hx-ext="response-targets" hx-post="/api/registration" hx-trigger="submit" class="reg-form"
+        hx-target-error="#reg-result" hx-swap="innerHTML">
+        @components.Input(components.InputProps{
+        Name: "login",
+        Placeholder: "Придумайте псевдоним",
+        })
+        @components.Input(components.InputProps{
+        Name: "email",
+        Placeholder: "Email",
+        })
+        @components.Input(components.InputProps{
+        Name: "password",
+        Placeholder: "Пароль",
+        Type: "password",
+        })
+        <button class="submit-button">
+            <span class="post-form__submit">Зарегестрироваться</span>
+        </button>
+        <div class="separator">ИЛИ</div>
+        
+    </form>
+    <button class="log-button">
+        <a href="login" class="link"><span>Войти</span> </a>
+    </button>
+</div>
+
+}
+
+}
+
+templ RegistrationStyle() {
+<style>
+    a{
+        text-decoration: none;
+    }
+
+    span{
+        text-decoration: none;
+        color: var(--color-white);
+    }
+    .separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 0;
+    color: var(--color-white);
+    font-size: 20px;
+    }
+
+    .separator::before,
+    .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ffffff;
+    }
+
+    .separator:not(:empty)::before {
+
+    margin-right: .25em;
+    }
+
+    .separator:not(:empty)::after {
+    margin-left: .25em;
+    
+    }
+
+    .log-button{
+        height: 80px;
+        padding: 15px 20px;
+        background-color: #303030; 
+        color: var(--color-white);
+        border-radius: 20px;
+        cursor: pointer;
+        border: none;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        width: 100%;
+        gap: 30px;
+        width: 100%;
+        max-width: 520px;
+    }
+
+    .reg-form--wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .submit-button{
+        
+        height: 80px;
+        padding: 15px 20px;
+        background-color: #80d49c;
+        color: var(--color-white);
+        border-radius: 20px;
+        cursor: pointer;
+        border: none;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        width: 100%;
+
+    }
+
+    #reg-result{
+        margin-bottom: 30px;
+        }
+
+    .reg-form{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        width: 100%;
+        max-width: 520px;
+        margin-bottom: 30px;
+    }
+
+    .title-wrapper{
+        text-align: center;
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-top: 20px;
+        border-bottom: 1px solid rgb(222, 222, 222);
+        
+    }
+    
+
+    .title{
+        font-weight: bold;
+        margin-bottom:12px;
+        margin-top: 0;
+        color: var(--color-white);
+        font-size: 70px;
+    }
+</style>
+}

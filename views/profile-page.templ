@@ -1,0 +1,110 @@
+package views
+
+import "stegano-webapp/steagano-webapp/views/layout"
+import "stegano-webapp/steagano-webapp/internal/models"
+
+templ ProfilePage(userData models.ProfileCreditionals) {
+    @layout.Layout(layout.LayoutProps{
+        Title: "Профиль",
+        MetaDescriptiom: "Профиль",
+    }){ 
+        
+        @ProfilePageStyle()
+        <button class="back-button">
+            <a  class="back-button-link"  href="/"><span>← Назад</span></a>
+        </button>
+        @isProfileOwner(userData)
+        <div class="title--header-wrapper">
+            <div class="userdata-wrapper">
+                    <span class="default-text">✉️ Ваша почта: { userData.Email } </span>
+                    <span class="default-text">🛡️ Зашифровано файлов: { userData.Encrypted }</span>
+                    <span class="default-text">🔑 Расшифровано файлов: { userData.Transcribed }</span>
+            </div>
+
+        </div>
+    }
+}
+
+templ isProfileOwner(userData models.ProfileCreditionals) {
+    @ProfilePageStyle()
+    {{ login := ctx.Value("login").(string) }}
+    if login == userData.Login {
+        <h1 class="title--header">
+                    Это ваш профиль, { userData.Login } 
+        </h1>
+    } else {
+        <h1 class="title--header">
+            Это профиль { userData.Login } 
+        </h1>
+    }
+ 
+}
+
+templ ProfilePageStyle() {
+    <style>
+        .title--header-wrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1320px;
+        max-height: 106px;
+        width: 100%;
+        }
+
+        .userdata-wrapper{
+        display: flex;
+        justify-content: space-between;
+        max-width: 1120px;
+        margin-left: 100px;
+        margin-right: 100px;
+        }
+
+
+        .default-text{
+        color: var(--color-white);
+        font-size: 20px;
+        font-weight: 200;
+        padding-bottom: 20px;
+        }
+
+        .title--header-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        padding-top: 20px;
+    }
+        .title--header{
+            margin-left: 100px;
+            margin-right: 100px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: var(--color-white);
+            font-size: 70px;
+        }
+
+        .back-button {
+        background-color: #131313;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--color-white);
+        font-size: 16px;
+        cursor: pointer;
+        border: 1px solid #ffffff;
+        margin-left: 100px;
+        margin-top: 40px ;
+        height: 55px;
+        width: 150px;
+
+    
+        }   
+
+    .back-button-link{
+        padding: 15px 20px;
+        color: var(--color-white);
+        text-decoration: none;
+        border-radius: 8px;
+    </style>
+}

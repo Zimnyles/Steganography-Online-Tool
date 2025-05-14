@@ -1,0 +1,5 @@
+CREATE TABLE usersactions (
+    id SERIAL PRIMARY KEY,
+    actions INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+);

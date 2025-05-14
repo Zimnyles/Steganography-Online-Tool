@@ -1,0 +1,2 @@
+ALTER TABLE users 
+ADD COLUMN transcribed INT NOT NULL DEFAULT 0

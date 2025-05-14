@@ -1,0 +1,48 @@
+package components
+
+type InputProps struct{
+    Placeholder string
+    Name string
+    Type string
+}
+
+templ Input(props InputProps) {
+@InputStyle()
+    {{ Type := props.Type }}
+    if props.Type == "password" {
+        <div class="passwod-input__wrapper">
+        
+            <input placeholder={props.Placeholder} name={props.Name} class="input"  type={Type} />
+
+        </div>
+    } else {
+        <input placeholder={props.Placeholder} name={props.Name} class="input" />
+    }
+    
+}
+
+
+templ InputStyle() {
+<style>
+    .passwod-input__wrapper{
+        width: 100%;
+        max-width: 520px;
+    }
+    .input {
+        height: 80px;
+        padding: 20px;
+        border: none;
+        background: var(--color-white);
+        width: 100%;
+        max-width: 520px;
+
+    }
+    .input::placeholder{
+        color:var(--color-grey) ;
+    }
+
+
+
+</style>
+
+}

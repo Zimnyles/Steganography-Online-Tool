@@ -1,0 +1,40 @@
+package components
+
+templ EncryptResult(imageURL string, filename string) {
+    @EncryptResultStyle()
+    <div class="result-container">
+        <div class="download-actions">
+            <a href={templ.URL(imageURL)} download={filename} class="download-button">
+                <span>Скачать изображение 💾</span>
+            </a>
+        </div>
+    </div>
+
+}
+
+templ EncryptResultStyle() {
+    <style>
+        a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+        .result-container{
+            text-align: center;
+            align-items: center;
+            background-color: #4CAF50;
+            margin-left: 100px;
+            margin-right: 100px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: none;   
+            padding: 30px;  
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .htmx-swapping .result-container{
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+    </style>
+}

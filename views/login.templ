@@ -1,0 +1,169 @@
+package views
+
+
+import "stegano-webapp/steagano-webapp/views/layout"
+import "stegano-webapp/steagano-webapp/views/components"
+
+
+templ Login() {
+    @layout.Layout(layout.LayoutProps{
+    Title: "Вход",
+    MetaDescriptiom: "Вход",
+    }){
+        
+        @LoginStyle()
+            <div class="title-wrapper">
+                <h1 class="title">
+                    Вход
+                </h1>
+            </div>
+            <div id="login-result"> </div>
+            <div class="login-form--wrapper">
+                <form hx-ext="response-targets" hx-post="/api/login" hx-trigger="submit" class="login-form"
+                    hx-target-error="#login-result" hx-swap="innerHTML">
+                    @components.Input(components.InputProps{
+                    Name: "login",
+                    Placeholder: "Псевдоним",
+                    })
+                    @components.Input(components.InputProps{
+                    Name: "email",
+                    Placeholder: "Email",
+                    })
+                    @components.Input(components.InputProps{
+                    Name: "password",
+                    Placeholder: "Пароль",
+                    Type: "password",
+                    })
+                    
+                    <button class="submit-button">
+                        
+                        <span class="post-form__submit">Войти</span>
+                    </button>
+                    <div class="separator">ИЛИ</div>
+                    
+                </form>
+                <button class="reg-button">
+                        <a href="registration" class="link"><span class="post-form__submit">Регистрация</span></a>
+                </button>
+            </div>
+        
+    }
+       
+}
+
+templ LoginStyle() {
+<style>
+    span{
+        text-decoration: none;
+    }
+
+    .link{
+        text-decoration: none;
+    }
+
+    .separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 0;
+    color: var(--color-white);
+    font-size: 20px;
+    }
+
+    .separator::before,
+    .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ffffff;
+    }
+
+    .separator:not(:empty)::before {
+
+    margin-right: .25em;
+    }
+
+    .separator:not(:empty)::after {
+    margin-left: .25em;
+    
+    }
+
+
+    .login-form--wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .submit-button{
+        
+        height: 80px;
+        padding: 15px 20px;
+        background-color: #80d49c; 
+        color: var(--color-white);
+        border-radius: 20px;
+        cursor: pointer;
+        border: none;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        width: 100%;
+
+    }
+
+    .reg-button{
+        height: 80px;
+        padding: 15px 20px;
+        background-color: #303030; 
+        color: var(--color-white);
+        border-radius: 20px;
+        cursor: pointer;
+        border: none;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        width: 100%;
+        gap: 30px;
+        width: 100%;
+        max-width: 520px;
+        text-decoration: none ;
+    }
+
+    #login-result{
+        margin-bottom: 30px;
+        }
+
+    .login-form{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        width: 100%;
+        max-width: 520px;
+        margin-bottom: 30px;
+    }
+
+    .title-wrapper{
+        text-align: center;
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-top: 20px;
+        border-bottom: 1px solid rgb(222, 222, 222);
+        
+    }
+
+    .post-form__submit{
+        text-decoration: none;
+        color: var(--color-white);
+    }
+    
+
+    .title{
+        font-weight: bold;
+        margin-bottom:12px;
+        margin-top: 0;
+        color: var(--color-white);
+        font-size: 70px;
+    }
+</style>
+}
